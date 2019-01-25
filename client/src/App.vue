@@ -1,28 +1,39 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app dark>
+    <v-content>
+      <status :connected="isConnected" :last-connected-at="lastConnected"/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import {mapGetters} from 'vuex';
 
 export default {
-  name: 'app',
-  components: {
-    HelloWorld
+  name: 'App',
+  computed: {
+    ...mapGetters([
+      'isConnected',
+      'lastConnected',
+      'sleeps'
+    ])
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  .application.theme--dark {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background: black;
+    color: #d8d8d8;
+  }
+  .theme--dark .v-card {
+    background: black;
+  }
+
+  .display-1 {
+    color: rgba(216, 216, 216, 0.5);
+  }
 </style>
