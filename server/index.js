@@ -7,9 +7,16 @@ let jsonPath = path.join(__dirname, 'sleeps.json');
 console.log(jsonPath);
 
 /**
+ * @type {{sleeps, schedule}}
+ */
+let data = require(jsonPath);
+
+/**
  * @type {Sleep[]}
  */
-let sleeps = require(jsonPath).map(obj => new Sleep(obj));
+let sleeps = data.sleeps.map(obj => new Sleep(obj));
+
+let schedule = data.schedule;
 
 /**
  * @param {Number} id
@@ -30,8 +37,9 @@ function sleepIndexById(id) {
 
 io.on('connection', socket => {
   console.log('client connected');
-  // send all sleeps to client
+  // send all data to client
   socket.emit('sleeps', sleeps);
+  socket.emit('schedule', schedule);
 
   function refresh() {
     console.log('refresh');
@@ -69,13 +77,25 @@ io.on('connection', socket => {
     socket.broadcast.emit('delete-sleep', id);
   }
 
+  function updateSchedule(s) {
+    console.log('update schedule');
+    schedule = s;
+    socket.broadcast.emit('update-schedule', s);
+    save();
+  }
+
   socket.on('refresh', refresh);
   socket.on('update-sleep', updateSleep);
-  socket.on('delete-sleep', deleteSleep)
+  socket.on('delete-sleep', deleteSleep);
+  socket.on('update-schedule', updateSchedule);
 });
 
 function save() {
-  fs.writeFileSync(jsonPath, JSON.stringify(sleeps, null, 2), 'utf8');
+  let d = {
+    sleeps,
+    schedule
+  };
+  fs.writeFileSync(jsonPath, JSON.stringify(d, null, 2), 'utf8');
 }
 
 console.log('listening on port 3002');
