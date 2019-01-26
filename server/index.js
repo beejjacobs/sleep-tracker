@@ -80,7 +80,7 @@ io.on('connection', socket => {
   function updateSchedule(s) {
     console.log('update schedule');
     schedule = s;
-    socket.broadcast.emit('update-schedule', s);
+    socket.broadcast.emit('schedule', s);
     save();
   }
 
