@@ -19,6 +19,10 @@
             <td>Offline Actions</td>
             <td>{{offlineChangesCount}}</td>
           </tr>
+          <tr>
+            <td>Schedule Updated Offline</td>
+            <td>{{offlineScheduleChanged ? 'Yes' : 'No'}}</td>
+          </tr>
         </table>
       </v-card-text>
     </v-card>
@@ -36,6 +40,9 @@
       },
       offlineChangesCount: {
         type: Number
+      },
+      offlineScheduleChanged: {
+        type: Boolean
       }
     },
     computed: {

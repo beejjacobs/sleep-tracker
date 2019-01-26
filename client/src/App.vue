@@ -1,7 +1,12 @@
 <template>
   <v-app dark>
     <v-content>
-      <status :connected="isConnected" :last-connected-at="lastConnected"/>
+      <status
+        :connected="isConnected"
+        :last-connected-at="lastConnected"
+        :offline-changes-count="offlineChangesCount"
+        :offline-schedule-changed="offlineScheduleChanged"
+      />
     </v-content>
   </v-app>
 </template>
@@ -15,6 +20,8 @@ export default {
     ...mapGetters([
       'isConnected',
       'lastConnected',
+      'offlineChangesCount',
+      'offlineScheduleChanged',
       'sleeps'
     ])
   }
