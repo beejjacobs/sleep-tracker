@@ -12,7 +12,9 @@ export default new Vuex.Store({
     lastConnected: 'unknown',
     loading: false,
     sleeps: [],
-    offlineChanges: []
+    offlineChanges: [],
+    schedule: [],
+    offlineScheduleChanged: false
   },
   getters: {
     isConnected(state) {
@@ -20,6 +22,9 @@ export default new Vuex.Store({
     },
     lastConnected(state) {
       return state.lastConnected;
+    },
+    schedule(state) {
+      return state.schedule;
     },
     sleeps(state) {
       return state.sleeps
@@ -40,9 +45,18 @@ export default new Vuex.Store({
     },
     offlineChangesCount(state) {
       return state.offlineChanges.length;
+    },
+    offlineScheduleChanged(state) {
+      return state.offlineScheduleChanged;
     }
   },
   mutations: {
+    setSchedule(state, schedule) {
+      state.schedule = schedule;
+    },
+    setOfflineScheduleChanged(state, value) {
+      state.offlineScheduleChanged = value;
+    },
     setSleeps(state, sleeps) {
       state.sleeps = sleeps;
     },
@@ -57,6 +71,9 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    sendSchedule(context) {
+      socket.emit('update-schedule', context.state.schedule);
+    },
     fakeSleep() {
       socket.emit('update-sleep', new Sleep({
         id: 1,
