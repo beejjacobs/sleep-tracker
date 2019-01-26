@@ -8,8 +8,6 @@ const SocketStorePlugin = store => {
     store.commit('setConnected', true);
     store.commit('updateLastConnected');
     store.commit('setOfflineScheduleChanged', false);
-    store.dispatch('sendSchedule');
-    store.dispatch('fakeSleep');
   });
 
   socket.on('disconnect', () => store.commit('setConnected', false));

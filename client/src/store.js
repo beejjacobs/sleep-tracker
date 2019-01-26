@@ -24,7 +24,24 @@ export default new Vuex.Store({
       return state.lastConnected;
     },
     schedule(state) {
-      return state.schedule;
+      return state.schedule.sort((a, b) => {
+        let m = moment(a.end);
+        if (m.isBefore(b.end)) {
+          return -1;
+        }
+        if (m.isAfter(b.end)) {
+          return 1;
+        }
+        // a must be equal to b
+        return 0;
+      });
+    },
+    maxScheduleId(state) {
+      let max = Math.max(...state.schedule.map(s => s.id));
+      if (max !== Number.NEGATIVE_INFINITY) {
+        return max;
+      }
+      return 0;
     },
     sleeps(state) {
       return state.sleeps
@@ -54,6 +71,9 @@ export default new Vuex.Store({
     setSchedule(state, schedule) {
       state.schedule = schedule;
     },
+    addSleepToSchedule(state, sleep) {
+      state.schedule.push(sleep);
+    },
     setOfflineScheduleChanged(state, value) {
       state.offlineScheduleChanged = value;
     },
@@ -73,6 +93,11 @@ export default new Vuex.Store({
   actions: {
     sendSchedule(context) {
       socket.emit('update-schedule', context.state.schedule);
+    },
+    addSleepToSchedule(context, sleep) {
+      sleep.id = context.getters.maxScheduleId + 1;
+      context.commit('addSleepToSchedule', sleep);
+      context.dispatch('sendSchedule');
     },
     fakeSleep() {
       socket.emit('update-sleep', new Sleep({

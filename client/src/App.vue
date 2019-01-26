@@ -1,6 +1,7 @@
 <template>
   <v-app dark>
     <v-content>
+      <schedule/>
       <status
         :connected="isConnected"
         :last-connected-at="lastConnected"
