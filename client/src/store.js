@@ -22,7 +22,21 @@ export default new Vuex.Store({
       return state.lastConnected;
     },
     sleeps(state) {
-      return state.sleeps.map(sleep => new Sleep(sleep));
+      return state.sleeps
+          .map(sleep => new Sleep(sleep))
+          .sort((a, b) => {
+            if (a.startTime.isBefore(b.startTime)) {
+              return -1;
+            }
+            if (a.startTime.isAfter(b.startTime)) {
+              return 1;
+            }
+            // a must be equal to b
+            return 0;
+          });
+    },
+    lastSleep(state) {
+      return state.sleeps[state.sleeps.length - 1];
     },
     offlineChangesCount(state) {
       return state.offlineChanges.length;
@@ -46,7 +60,7 @@ export default new Vuex.Store({
     fakeSleep() {
       socket.emit('update-sleep', new Sleep({
         id: 1,
-        awake: moment().subtract(1, 'hour')
+        start: moment().subtract(1, 'hour')
       }));
     }
   },
