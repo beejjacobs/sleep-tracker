@@ -25,11 +25,12 @@ export default new Vuex.Store({
     },
     schedule(state) {
       return state.schedule.sort((a, b) => {
-        let m = moment(a.end);
-        if (m.isBefore(b.end)) {
+        let aEnd = moment.utc(a.end, 'HH:mm');
+        let bEnd = moment.utc(b.end, 'HH:mm');
+        if (aEnd.isBefore(bEnd)) {
           return -1;
         }
-        if (m.isAfter(b.end)) {
+        if (aEnd.isAfter(bEnd)) {
           return 1;
         }
         // a must be equal to b
