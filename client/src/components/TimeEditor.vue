@@ -36,6 +36,9 @@
         time: '00:00'
       }
     },
+    mounted() {
+      this.time = this.value;
+    },
     watch: {
       value() {
         this.time = this.value;

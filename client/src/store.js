@@ -74,6 +74,22 @@ export default new Vuex.Store({
     addSleepToSchedule(state, sleep) {
       state.schedule.push(sleep);
     },
+    editSleepInSchedule(state, sleep) {
+      let index = state.schedule.findIndex(s => s.id === sleep.id);
+      if (index === -1) {
+        console.warn(`editSleepInSchedule: sleep with id ${sleep.id} not found`);
+        return;
+      }
+      Vue.set(state.schedule, index, sleep);
+    },
+    deleteSleepInSchedule(state, id) {
+      let index = state.schedule.findIndex(s => s.id === id);
+      if (index === -1) {
+        console.warn(`deleteSleepInSchedule: sleep with id ${id} not found`);
+        return;
+      }
+      state.schedule.splice(index, 1);
+    },
     setOfflineScheduleChanged(state, value) {
       state.offlineScheduleChanged = value;
     },
@@ -97,6 +113,14 @@ export default new Vuex.Store({
     addSleepToSchedule(context, sleep) {
       sleep.id = context.getters.maxScheduleId + 1;
       context.commit('addSleepToSchedule', sleep);
+      context.dispatch('sendSchedule');
+    },
+    editSleepInSchedule(context, sleep) {
+      context.commit('editSleepInSchedule', sleep);
+      context.dispatch('sendSchedule');
+    },
+    deleteSleepInSchedule(context, sleep) {
+      context.commit('deleteSleepInSchedule', sleep);
       context.dispatch('sendSchedule');
     },
     fakeSleep() {
