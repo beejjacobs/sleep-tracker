@@ -7,12 +7,12 @@ const SocketStorePlugin = store => {
   socket.on('connect', () => {
     store.commit('setConnected', true);
     store.commit('updateLastConnected');
-    store.commit('setOfflineScheduleChanged', false);
+    store.commit('schedule/setOfflineScheduleChanged', false);
   });
 
   socket.on('disconnect', () => store.commit('setConnected', false));
   socket.on('sleeps', sleeps => store.commit('setSleeps', sleeps));
-  socket.on('schedule', schedule => store.commit('setSchedule', schedule));
+  socket.on('schedule', schedule => store.commit('schedule/setSchedule', schedule));
 };
 
 export {SocketStorePlugin, socket};

@@ -40,7 +40,7 @@
       };
     },
     methods: {
-      ...mapActions([
+      ...mapActions('schedule', [
         'deleteSleepInSchedule',
         'editSleepInSchedule'
       ]),

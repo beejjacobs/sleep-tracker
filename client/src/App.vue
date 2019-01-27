@@ -21,9 +21,10 @@ export default {
     ...mapGetters([
       'isConnected',
       'lastConnected',
-      'offlineChangesCount',
-      'offlineScheduleChanged',
-      'sleeps'
+      'offlineChangesCount'
+    ]),
+    ...mapGetters('schedule', [
+      'offlineScheduleChanged'
     ])
   }
 }

@@ -50,12 +50,12 @@
       }
     },
     computed: {
-      ...mapGetters([
+      ...mapGetters('schedule', [
         'schedule'
       ])
     },
     methods: {
-      ...mapActions([
+      ...mapActions('schedule', [
         'addSleepToSchedule'
       ]),
       add() {
