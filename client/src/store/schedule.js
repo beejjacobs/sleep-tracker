@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import moment from 'moment';
 import {socket} from '../socket';
+import {afterNow, momentSort, timeToday} from '../util';
 
 export default {
   namespaced: true,
@@ -32,6 +33,57 @@ export default {
     },
     offlineScheduleChanged(state) {
       return state.offlineScheduleChanged;
+    },
+    nextSchedule(state) {
+      if (state.schedule.length === 0) {
+        return {time: null, isStart: true};
+      }
+      let isStart = true;
+      //check today's time
+      let starts = state.schedule
+          .map(sleep => timeToday(sleep.start))
+          .filter(afterNow)
+          .sort(momentSort);
+      let ends = state.schedule
+          .map(sleep => timeToday(sleep.end))
+          .filter(afterNow)
+          .sort(momentSort);
+      starts = starts.length === 0 ? null : starts[0];
+      ends = ends.length === 0 ? null : ends[0];
+
+      let next = null;
+      if (starts !== null && ends !== null) {
+        if (starts.isBefore(ends)) {
+          next = starts;
+        } else {
+          isStart = false;
+          next = ends;
+        }
+      } else if (starts !== null) {
+        next = starts;
+      } else if (ends !== null) {
+        isStart = false;
+        next = ends;
+      }
+
+      if (next === null) {
+        //must be tomorrow
+        let starts = state.schedule
+            .map(sleep => timeToday(sleep.start).add(1, 'day'))
+            .sort(momentSort);
+        let ends = state.schedule
+            .map(sleep => timeToday(sleep.end).add(1, 'day'))
+            .sort(momentSort);
+        console.log(starts, ends);
+        if (starts[0].isBefore(ends[0])) {
+          next = starts[0];
+        } else {
+          isStart = false;
+          next = ends[0];
+        }
+      }
+
+      return {time: next, isStart};
     }
   },
   mutations: {
