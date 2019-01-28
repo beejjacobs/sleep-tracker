@@ -13,6 +13,8 @@
       v-model="time"
       prepend-icon="access_time"
       readonly
+      :label="label"
+      class="entry"
     ></v-text-field>
     <v-time-picker v-if="dialog" v-model="time" color="blue" format="24hr">
       <v-spacer></v-spacer>
@@ -26,6 +28,10 @@
   export default {
     name: 'TimeEditor',
     props: {
+      label: {
+        type: String,
+        default: 'Time'
+      },
       value: {
         type: String
       }
@@ -54,5 +60,8 @@
 </script>
 
 <style scoped>
-
+  .entry {
+    max-width: 120px;
+    text-align: center;
+  }
 </style>

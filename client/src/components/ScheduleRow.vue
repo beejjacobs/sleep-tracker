@@ -13,8 +13,8 @@
     </template>
     <template v-else>
       <td><v-btn fab small color="green darken-2" @click="done"><v-icon>done</v-icon></v-btn></td>
-      <td><time-editor v-model="times.start"/></td>
-      <td><time-editor v-model="times.end"/></td>
+      <td><time-editor v-model="times.start" label="Start"/></td>
+      <td><time-editor v-model="times.end" label="End"/></td>
     </template>
   </tr>
 </template>

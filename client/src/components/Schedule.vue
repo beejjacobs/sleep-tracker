@@ -19,8 +19,8 @@
           <schedule-row v-for="(sleep, i) in schedule" :key="i" :sleep="sleep"/>
           <tr v-if="newRow.editing">
             <td><v-btn fab small color="green darken-2" @click="done"><v-icon>done</v-icon></v-btn></td>
-            <td><time-editor v-model="newRow.start"/></td>
-            <td><time-editor v-model="newRow.end"/></td>
+            <td><time-editor v-model="newRow.start" label="Start"/></td>
+            <td><time-editor v-model="newRow.end" label="End"/></td>
           </tr>
           <tr  v-if="!newRow.editing">
             <td class="add"><v-btn fab small color="green darken-2" @click="add"><v-icon>add</v-icon></v-btn></td>
