@@ -1,7 +1,7 @@
 <template>
   <v-dialog>
-    <v-btn  slot="activator" fab fixed bottom left :color="connected ? 'green' : 'red'">
-      <v-icon>{{ connected ? 'link' : 'link_off' }}</v-icon>
+    <v-btn  slot="activator" fab fixed bottom left :color="isConnected ? 'green' : 'red'">
+      <v-icon>{{ isConnected ? 'link' : 'link_off' }}</v-icon>
     </v-btn>
     <v-card>
       <v-card-text>
@@ -9,7 +9,7 @@
         <table>
           <tr>
             <td>Connected</td>
-            <td>{{ connected ? 'Yes' : 'No' }}</td>
+            <td>{{ isConnected ? 'Yes' : 'No' }}</td>
           </tr>
           <tr>
             <td>Last Connection</td>
@@ -30,27 +30,23 @@
 </template>
 
 <script>
+  import {mapGetters} from 'vuex';
   export default {
     name: 'Status',
-    props: {
-      connected: {
-        type: Boolean
-      },
-      lastConnectedAt: {
-      },
-      offlineChangesCount: {
-        type: Number
-      },
-      offlineScheduleChanged: {
-        type: Boolean
-      }
-    },
     computed: {
+      ...mapGetters([
+        'isConnected',
+        'lastConnected',
+        'offlineChangesCount'
+      ]),
+      ...mapGetters('schedule', [
+        'offlineScheduleChanged'
+      ]),
       lastConnection() {
-        if (this.lastConnectedAt === 'unknown') {
+        if (this.lastConnected === 'unknown') {
           return 'Unknown';
         }
-        return this.$moment(this.lastConnectedAt).format('HH:mm DD/MM/YYYY');
+        return this.$moment(this.lastConnected).format('HH:mm DD/MM/YYYY');
       }
     }
   }

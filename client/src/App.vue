@@ -2,12 +2,7 @@
   <v-app dark>
     <v-content>
       <schedule/>
-      <status
-        :connected="isConnected"
-        :last-connected-at="lastConnected"
-        :offline-changes-count="offlineChangesCount"
-        :offline-schedule-changed="offlineScheduleChanged"
-      />
+      <status/>
     </v-content>
   </v-app>
 </template>
