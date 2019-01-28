@@ -5,6 +5,7 @@ import {socket, SocketStorePlugin} from '../socket';
 import Sleep from '../sleep';
 
 import schedule from './schedule';
+import {time, TimePlugin} from './time';
 
 Vue.use(Vuex);
 
@@ -67,9 +68,11 @@ export default new Vuex.Store({
     }
   },
   modules: {
-    schedule
+    schedule,
+    time
   },
   plugins: [
-    SocketStorePlugin
+    SocketStorePlugin,
+    TimePlugin
   ]
 });
