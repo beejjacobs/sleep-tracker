@@ -8,21 +8,9 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex';
-
-export default {
-  name: 'App',
-  computed: {
-    ...mapGetters([
-      'isConnected',
-      'lastConnected',
-      'offlineChangesCount'
-    ]),
-    ...mapGetters('schedule', [
-      'offlineScheduleChanged'
-    ])
+  export default {
+    name: 'App'
   }
-}
 </script>
 
 <style>
