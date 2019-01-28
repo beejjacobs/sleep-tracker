@@ -84,6 +84,13 @@ export default {
     },
     offlineChangesCount(state) {
       return state.offlineChanges.length;
+    },
+    maxSleepId(state) {
+      let max = Math.max(...state.sleeps.map(s => s.id));
+      if (max !== Number.NEGATIVE_INFINITY) {
+        return max;
+      }
+      return 0;
     }
   },
   mutations: {
