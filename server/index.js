@@ -113,7 +113,7 @@ io.on('connection', socket => {
   function deleteSleep(id) {
     const index = sleepIndexById(id);
     if (index === -1) {
-      console.warn(`unable to find sleep with id = ${id} to delete`)
+      console.warn(`unable to find sleep with id = ${id} to delete`);
     } else {
       console.log(`deleted sleep with id = ${id}`);
       sleeps.splice(index, 1);
@@ -125,7 +125,7 @@ io.on('connection', socket => {
    * @param {Number} sleepId
    * @param {SleepSection} section
    */
-  function updateSleepSection(sleepId, section) {
+  function updateSleepSection({sleepId, section}) {
     const sleep = sleepById(sleepId);
     const localSection = sleepSectionById(sleep, section.id);
     if (localSection === undefined) {
@@ -143,7 +143,7 @@ io.on('connection', socket => {
    * @param {Number} sleepId
    * @param {Number} sectionId
    */
-  function deleteSleepSection(sleepId, sectionId) {
+  function deleteSleepSection({sleepId, sectionId}) {
     const sleep = sleepById(sleepId);
     const index = sleepSectionIndexById(sleep, sectionId);
     if (index === -1) {

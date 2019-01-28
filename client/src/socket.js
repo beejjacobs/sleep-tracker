@@ -11,7 +11,11 @@ const SocketStorePlugin = store => {
   });
 
   socket.on('disconnect', () => store.commit('setConnected', false));
-  socket.on('sleeps', sleeps => store.commit('setSleeps', sleeps));
+  socket.on('sleeps', sleeps => store.commit('sleep/setSleeps', sleeps));
+  socket.on('update-sleep', data => store.commit('sleep/updateSleep', data));
+  socket.on('delete-sleep', data => store.commit('sleep/deleteSleep', data));
+  socket.on('update-sleep-section', data => store.commit('sleep/updateSleepSection', data));
+  socket.on('delete-sleep-section', data => store.commit('sleep/deleteSleepSection', data));
   socket.on('schedule', schedule => store.commit('schedule/setSchedule', schedule));
 };
 
