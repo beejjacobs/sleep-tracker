@@ -36,11 +36,13 @@
     computed: {
       ...mapGetters([
         'isConnected',
-        'lastConnected',
-        'offlineChangesCount'
+        'lastConnected'
       ]),
       ...mapGetters('schedule', [
         'offlineScheduleChanged'
+      ]),
+      ...mapGetters('sleep', [
+        'offlineChangesCount'
       ]),
       lastConnection() {
         if (this.lastConnected === 'unknown') {
