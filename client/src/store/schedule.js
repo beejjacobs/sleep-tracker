@@ -74,7 +74,6 @@ export default {
         let ends = state.schedule
             .map(sleep => timeToday(sleep.end).add(1, 'day'))
             .sort(momentSort);
-        console.log(starts, ends);
         if (starts[0].isBefore(ends[0])) {
           next = starts[0];
         } else {
@@ -84,6 +83,15 @@ export default {
       }
 
       return {time: next, isStart};
+    },
+    nextScheduleText(state, getters, rootState, rootGetters) {
+      if (getters.nextSchedule === null) {
+        return 'UNKNOWN';
+      }
+      return getters.nextSchedule.isStart ? 'Sleep' : 'Wake Up'
+          + ' @ '
+          + getters.nextSchedule.time.format('HH:mm')
+          + ' (' + moment(rootGetters['time/now']).to(getters.nextSchedule.time) + ')';
     }
   },
   mutations: {
