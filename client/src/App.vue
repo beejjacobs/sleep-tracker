@@ -1,6 +1,7 @@
 <template>
   <v-app dark>
     <v-content>
+      <add-sleep/>
       <schedule/>
       <status/>
     </v-content>

@@ -7,12 +7,14 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
+import AddSleep from './components/AddSleep';
 import DateEditor from './components/DateEditor';
 import Schedule from './components/Schedule';
 import ScheduleRow from './components/ScheduleRow';
 import Status from './components/Status';
 import TimeEditor from './components/TimeEditor';
 
+Vue.component('add-sleep', AddSleep);
 Vue.component('date-editor', DateEditor);
 Vue.component('schedule', Schedule);
 Vue.component('schedule-row', ScheduleRow);
