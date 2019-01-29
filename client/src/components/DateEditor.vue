@@ -18,7 +18,7 @@
     <v-date-picker v-model="date" scrollable color="blue">
       <v-spacer></v-spacer>
       <v-btn flat color="blue" @click="dialog = false">Cancel</v-btn>
-      <v-btn flat color="blue" @click="$refs.dialog.save(date)">OK</v-btn>
+      <v-btn flat color="blue" @click="done">OK</v-btn>
     </v-date-picker>
   </v-dialog>
 </template>
