@@ -127,9 +127,9 @@ export default {
       const sleep = sleepById(state.sleeps, sleepId);
       const index = sleepSectionById(sleep, sectionId);
       if (index === -1) {
-        console.warn(`unable to find section with id = ${id} in sleep id = ${sleepId} to delete`);
+        console.warn(`unable to find section with id = ${sectionId} in sleep id = ${sleepId} to delete`);
       } else {
-        console.log(`deleted section with id = ${id} in sleep id = ${sleepId}`);
+        console.log(`deleted section with id = ${sectionId} in sleep id = ${sleepId}`);
         sleep.sections.splice(index, 1);
       }
     }
