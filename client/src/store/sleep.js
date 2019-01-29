@@ -79,8 +79,8 @@ export default {
             return 0;
           });
     },
-    lastSleep(state) {
-      return state.sleeps[state.sleeps.length - 1];
+    lastSleep(state, getters) {
+      return getters.sleeps[getters.sleeps.length - 1];
     },
     offlineChangesCount(state) {
       return state.offlineChanges.length;
