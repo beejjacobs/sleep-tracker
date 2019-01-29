@@ -135,6 +135,15 @@ export default {
     }
   },
   actions: {
+    createSleep(context) {
+      let sleep = {
+        id: context.getters.maxSleepId + 1,
+        start: moment().format(),
+        end: null,
+        sections: []
+      };
+      context.dispatch('updateSleep', sleep);
+    },
     updateSleep(context, sleep) {
       context.commit('updateSleep', sleep);
       socket.emit('update-sleep', sleep);

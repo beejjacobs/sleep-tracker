@@ -1,6 +1,12 @@
 <template>
   <v-app dark>
     <v-content>
+      <v-layout align-center class="section">
+
+      </v-layout>
+      <v-layout align-center class="section">
+        <start-sleep/>
+      </v-layout>
       <add-sleep/>
       <schedule/>
       <status/>
@@ -28,5 +34,11 @@
 
   .display-1 {
     color: rgba(216, 216, 216, 0.5);
+  }
+
+  .section {
+    height: 50vh;
+    justify-items: center;
+    text-align: center;
   }
 </style>
