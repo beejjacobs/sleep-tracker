@@ -40,10 +40,53 @@ function formatSection(section, start) {
   };
 }
 
+function fromNow(date) {
+  return moment.duration(date.diff(moment()));
+}
+
+function hoursMinutes(duration) {
+  let past = duration < 0;
+  let secs = Math.abs(duration.seconds());
+  let mins = Math.abs(duration.minutes()) + (secs > 30 ? 1 : 0);
+  let hours = Math.abs(duration.hours());
+  let hasValue = mins !== 0 || hours !== 0;
+  if (!hasValue) {
+    return '';
+  }
+  if (mins === 60) {
+    mins = 0;
+    hours++;
+  }
+  let s = past ? '' : 'in ';
+  if (hours !== 0) {
+    s += `${hours} hour`;
+    if (hours > 1) {
+      s += 's';
+    }
+    s += ' ';
+  }
+  if (mins !== 0) {
+    s += `${mins} minute`;
+    if (mins > 1) {
+      s += 's';
+    }
+  }
+  s += past ? ' ago' : '';
+
+  return s;
+}
+
+function dateToHoursMinutes(date) {
+  return hoursMinutes(fromNow(date));
+}
+
 export {
   momentSort,
   afterNow,
   timeToday,
   formatSection,
-  momentFromDateTime
+  momentFromDateTime,
+  fromNow,
+  hoursMinutes,
+  dateToHoursMinutes
 };

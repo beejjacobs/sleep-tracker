@@ -2,9 +2,9 @@
   <v-app dark>
     <v-content>
       <v-layout align-center class="section">
-
+        <last-sleep/>
       </v-layout>
-      <v-layout align-center class="section">
+      <v-layout class="section small">
         <start-sleep/>
       </v-layout>
       <add-sleep/>
@@ -37,8 +37,11 @@
   }
 
   .section {
-    height: 50vh;
+    height: 70vh;
     justify-items: center;
     text-align: center;
+  }
+  .section.small {
+    height: 30vh;
   }
 </style>
