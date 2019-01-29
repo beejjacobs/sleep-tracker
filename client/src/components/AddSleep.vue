@@ -10,8 +10,8 @@
       <time-editor v-model="sleep.start.time" label="Start Time"/>
       <time-editor v-model="sleep.end.time" label="End Time"/>
 
-      <div class="subheading">Sections</div>
-      <table>
+      <div class="title">Sections</div>
+      <table class="add-sleep">
         <thead>
         <tr>
           <th></th>
@@ -20,26 +20,26 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="section in sleep.sections">
-          <td></td>
-          <td>{{section.asleep}}</td>
-          <td>{{section.awake}}</td>
-        </tr>
-        <tr v-if="!sleep.section.editing">
-          <td><v-btn fab small color="green darken-2" @click="add"><v-icon>add</v-icon></v-btn></td>
-          <td></td>
-          <td></td>
-        </tr>
-        <template v-else>
-          <tr>
+        <sleep-section-row
+          v-for="section in sleep.sections" :key="section.id"
+          :value="section"
+          @delete="deleteSection(section.id)"
+        />
+        <tr class="new-row">
+          <template v-if="!sleep.section.editing">
+            <td><v-btn fab small color="green darken-2" @click="add"><v-icon>add</v-icon></v-btn></td>
+            <td></td>
+            <td></td>
+          </template>
+          <template v-else>
             <td>
               <v-btn fab small color="green darken-2" @click="addSection"><v-icon>done</v-icon></v-btn>
               <v-btn fab small color="red darken-2" @click="cancel"><v-icon>close</v-icon></v-btn>
             </td>
             <td><time-editor v-model="sleep.section.asleep" label="Asleep"/></td>
             <td><time-editor v-model="sleep.section.awake" label="Awake"/></td>
-          </tr>
-        </template>
+          </template>
+        </tr>
         </tbody>
       </table>
     </v-card>
@@ -114,6 +114,12 @@
         this.sleep.sections.push(s);
         this.sleep.section.editing = false;
       },
+      deleteSection(id) {
+        let i = this.sleep.sections.findIndex(s => s.id === id);
+        if (i !== -1) {
+          this.sleep.sections.splice(i, 1);
+        }
+      },
       cancel() {
         this.sleep.section.editing = false;
       }
@@ -124,6 +130,10 @@
 <style scoped>
   .display-1 {
     padding-top: 25px;
+    padding-bottom: 25px;
+  }
+  .title {
+    margin: 25px;
   }
   .main {
     text-align: center;
@@ -144,15 +154,28 @@
     min-width: 50vw;
     border-collapse: collapse;
     border-style: hidden;
-  }
-
-  table td, table th {
-    border: 1px solid rgba(216, 216, 216, 0.5);
-    padding: 5px;
-    transition: 0.5s;
+    width: 95%;
+    table-layout: fixed;
   }
 
   table td .v-dialog__container {
     width: 30vw;
   }
+
+  .new-row {
+    height: 80px;
+  }
+</style>
+
+<style>
+  table.add-sleep td, table.add-sleep th {
+    border: 1px solid rgba(216, 216, 216, 0.5);
+    padding: 5px;
+    transition: 0.5s;
+  }
+
+  table.add-sleep tr td:first-child {
+    text-align: right;
+  }
+
 </style>
