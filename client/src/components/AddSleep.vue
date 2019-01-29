@@ -8,7 +8,7 @@
 
       <date-editor class="date" v-model="sleep.start.date" label="Start Date"/>
       <time-editor v-model="sleep.start.time" label="Start Time"/>
-      <time-editor v-model="sleep.end.time" label="End Time"/>
+      <time-editor v-model="sleep.end" label="End Time"/>
 
       <div class="title">Sections</div>
       <table class="add-sleep">
@@ -49,6 +49,7 @@
 
 <script>
   import {mapActions, mapGetters} from 'vuex';
+  import {formatSection, momentFromDateTime} from '../util';
   export default {
     name: 'AddSleep',
     data() {
@@ -60,10 +61,7 @@
             date: '',
             time: ''
           },
-          end: {
-            date: '',
-            time: ''
-          },
+          end: '',
           section: {
             editing: false,
             asleep: '',
@@ -81,8 +79,7 @@
 
       this.sleep.start.date = oneHrAgo.format('YYYY-MM-DD');
       this.sleep.start.time = oneHrAgo.format('HH:mm');
-      this.sleep.end.date = now.format('YYYY-MM-DD');
-      this.sleep.end.time = now.format('HH:mm');
+      this.sleep.end = now.format('HH:mm');
 
       this.sleep.section.asleep = oneHrAgo.format('HH:mm');
       this.sleep.section.awake = now.format('HH:mm');
@@ -126,31 +123,17 @@
       },
       done() {
         let s = this.sleep;
-        let start = this.$moment(s.start.date + 'T' + s.start.time);
-        let end = this.$moment(s.start.date + 'T' + s.end.time);
+        let start = momentFromDateTime(s.start);
+        let end = momentFromDateTime({date: s.start.date, time: s.end});
         if (end.isBefore(start)) {
           end.add(1, 'day');
         }
+
         let sleep = {
           id: this.maxSleepId + 1,
           start: start.format(),
           end: end.format(),
-          sections: s.sections.map(section => {
-            let asleep = this.$moment(s.start.date + 'T' + section.asleep);
-            if (asleep.isBefore(start)) {
-              asleep.add(1, 'day');
-            }
-            let awake = this.$moment(s.start.date + 'T' + section.awake);
-            if (awake.isBefore(start)) {
-              awake.add(1, 'day');
-            }
-
-            return {
-              id: section.id,
-              asleep: asleep.format(),
-              awake: awake.format()
-            };
-          })
+          sections: s.sections.map(section => formatSection(section, start))
         };
 
         this.updateSleep(sleep);
