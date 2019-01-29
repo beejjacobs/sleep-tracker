@@ -42,6 +42,7 @@
         </tr>
         </tbody>
       </table>
+      <v-btn color="green" @click="done" large>Done</v-btn>
     </v-card>
   </v-dialog>
 </template>
@@ -114,14 +115,47 @@
         this.sleep.sections.push(s);
         this.sleep.section.editing = false;
       },
+      cancel() {
+        this.sleep.section.editing = false;
+      },
       deleteSection(id) {
         let i = this.sleep.sections.findIndex(s => s.id === id);
         if (i !== -1) {
           this.sleep.sections.splice(i, 1);
         }
       },
-      cancel() {
-        this.sleep.section.editing = false;
+      done() {
+        let s = this.sleep;
+        let start = this.$moment(s.start.date + 'T' + s.start.time);
+        let end = this.$moment(s.start.date + 'T' + s.end.time);
+        if (end.isBefore(start)) {
+          end.add(1, 'day');
+        }
+        let sleep = {
+          id: this.maxSleepId + 1,
+          start: start.format(),
+          end: end.format(),
+          sections: s.sections.map(section => {
+            let asleep = this.$moment(s.start.date + 'T' + section.asleep);
+            if (asleep.isBefore(start)) {
+              asleep.add(1, 'day');
+            }
+            let awake = this.$moment(s.start.date + 'T' + section.awake);
+            if (awake.isBefore(start)) {
+              awake.add(1, 'day');
+            }
+
+            return {
+              id: section.id,
+              asleep: asleep.format(),
+              awake: awake.format()
+            };
+          })
+        };
+
+        this.updateSleep(sleep);
+        this.sleep.sections = [];
+        this.show = false;
       }
     }
   }
