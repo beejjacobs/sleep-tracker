@@ -1,6 +1,7 @@
 <template>
   <v-flex>
-    <v-btn @click="start" color="primary" large>Start a Sleep</v-btn>
+    <v-btn @click="start(false)" color="primary" large>Start a Sleep</v-btn>
+    <v-btn @click="start(true)" color="secondary" large>Start a Sleep (Asleep)</v-btn>
   </v-flex>
 </template>
 
@@ -12,8 +13,8 @@
       ...mapActions('sleep', [
         'createSleep'
       ]),
-      start() {
-        this.createSleep();
+      start(asleep) {
+        this.createSleep(asleep);
       }
     }
   }

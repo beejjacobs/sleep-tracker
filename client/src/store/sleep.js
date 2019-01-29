@@ -135,13 +135,21 @@ export default {
     }
   },
   actions: {
-    createSleep(context) {
+    createSleep(context, asleep) {
+      let now = moment().format();
       let sleep = {
         id: context.getters.maxSleepId + 1,
-        start: moment().format(),
+        start: now,
         end: null,
         sections: []
       };
+      if (asleep) {
+        sleep.sections.push({
+          id: 1,
+          asleep: now,
+          awake: null
+        });
+      }
       context.dispatch('updateSleep', sleep);
     },
     updateSleep(context, sleep) {
