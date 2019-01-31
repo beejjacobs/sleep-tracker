@@ -36,7 +36,7 @@ export default {
     },
     nextSchedule(state) {
       if (state.schedule.length === 0) {
-        return {time: null, isStart: true};
+        return null;
       }
       let isStart = true;
       //check today's time
