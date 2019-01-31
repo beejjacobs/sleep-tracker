@@ -31,6 +31,6 @@ export const time = {
 export const TimePlugin = store => {
   setInterval(() => {
     store.commit('time/updateNow', moment().format());
-  }, 5000);
+  }, 10 * 1000);
 };
 
