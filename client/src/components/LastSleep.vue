@@ -25,8 +25,9 @@
       </table>
     </template>
     <div class="spacer"></div>
-    <v-btn large fab color="yellow darken-2"><v-icon x-large>wb_sunny</v-icon></v-btn>
-    <v-btn large fab color="grey"><v-icon x-large>brightness_3</v-icon></v-btn>
+    <v-btn :disabled="awake" large fab color="yellow darken-2"><v-icon>wb_sunny</v-icon></v-btn>
+    <v-btn :disabled="!awake || ended" large fab color="grey"><v-icon>brightness_3</v-icon></v-btn>
+    <v-btn :disabled="ended" large fab color="red darken-2"><v-icon>stop</v-icon></v-btn>
   </v-flex>
 </template>
 
@@ -37,41 +38,10 @@
 
   export default {
     name: 'LastSleep',
-    data() {
-      return {
-        timeToFeed: '',
-        timeSinceFeed: ''
-      }
-    },
     computed: {
       ...mapGetters('sleep', [
         'lastSleep'
       ]),
-      start() {
-        return moment(this.lastSleep.start);
-      },
-      startedToday() {
-        return moment().isSame(this.start, 'day');
-      },
-      startDay() {
-        return this.start.calendar(null, {
-          sameDay: '[Today]',
-          nextDay: '[Tomorrow]',
-          nextWeek: 'dddd',
-          lastDay: '[Yesterday]',
-          lastWeek: '[Last] dddd',
-          sameElse: 'DD/MM/YYYY'
-        });
-      },
-      lastSection() {
-        if (!this.lastSleep) {
-          return false;
-        }
-        if (this.lastSleep.sections.length === 0) {
-          return false;
-        }
-        return this.lastSleep.sections[this.lastSleep.sections.length - 1];
-      },
       asleepHm() {
         if (!this.lastSection || !this.lastSection.asleep) {
           return '';
@@ -85,31 +55,52 @@
         return dateToHoursMinutes(moment(this.lastSection.awake));
       },
       awake() {
+        if (!this.lastSection) {
+          return true;
+        }
+        if (this.lastSection.awake) {
+          return true;
+        }
         return false;
+      },
+      ended() {
+        if (!this.lastSleep) {
+          return false;
+        }
+        return !!this.lastSleep.end;
+      },
+      lastSection() {
+        if (!this.lastSleep) {
+          return false;
+        }
+        if (this.lastSleep.sections.length === 0) {
+          return false;
+        }
+        return this.lastSleep.sections[this.lastSleep.sections.length - 1];
+      },
+      start() {
+        return moment(this.lastSleep.start);
+      },
+      startDay() {
+        return this.start.calendar(null, {
+          sameDay: '[Today]',
+          nextDay: '[Tomorrow]',
+          nextWeek: 'dddd',
+          lastDay: '[Yesterday]',
+          lastWeek: '[Last] dddd',
+          sameElse: 'DD/MM/YYYY'
+        });
+      },
+      startedToday() {
+        return moment().isSame(this.start, 'day');
       }
-    },
-    methods: {
-      updateTimes() {
-
-      }
-    },
-    watch: {
-      lastSleep(value) {
-        this.updateTimes();
-      }
-    },
-    created() {
-      this.updateTimes();
-      setInterval(() => {
-        this.updateTimes();
-      }, 60 * 1000);
     }
   }
 </script>
 
 <style scoped>
   .display-1 {
-    margin-top: 40px;
+    margin-top: 25px;
   }
   .spacer {
     height: 35px;
@@ -132,5 +123,16 @@
 
   table.title td:first-child {
     text-align: right;
+  }
+
+  .v-btn--floating.v-btn--large {
+    height: 85px;
+    width: 85px;
+    font-size: xx-large;
+    margin: 0 15px;
+  }
+
+  .v-btn--floating.v-btn--large .v-icon {
+    font-size: 45px;
   }
 </style>
