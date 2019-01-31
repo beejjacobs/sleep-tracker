@@ -1,4 +1,4 @@
-const io = require('socket.io')(3003);
+const io = require('socket.io')(3004);
 const fs = require('fs');
 const path = require('path');
 
@@ -181,4 +181,4 @@ function save() {
   fs.writeFileSync(jsonPath, JSON.stringify(d, null, 2), 'utf8');
 }
 
-console.log('listening on port 3002');
+console.log('listening on port 3004');
