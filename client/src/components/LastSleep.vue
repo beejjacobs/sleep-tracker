@@ -11,8 +11,16 @@
         <td>{{endText}}</td>
       </tr>
     </table>
+
+    <div class="spacer"></div>
+
+    <v-btn :disabled="awake" large fab color="yellow darken-2"><v-icon>wb_sunny</v-icon></v-btn>
+    <v-btn :disabled="!awake || ended" large fab color="grey"><v-icon>brightness_3</v-icon></v-btn>
+    <v-btn :disabled="ended" large fab color="red darken-2"><v-icon>stop</v-icon></v-btn>
+    
+    <div class="spacer"></div>
+
     <template v-if="lastSection">
-      <div class="subheading">Last Section</div>
       <table class="title mt-1 mb-1">
         <tr>
           <td>Asleep</td>
@@ -24,10 +32,6 @@
         </tr>
       </table>
     </template>
-    <div class="spacer"></div>
-    <v-btn :disabled="awake" large fab color="yellow darken-2"><v-icon>wb_sunny</v-icon></v-btn>
-    <v-btn :disabled="!awake || ended" large fab color="grey"><v-icon>brightness_3</v-icon></v-btn>
-    <v-btn :disabled="ended" large fab color="red darken-2"><v-icon>stop</v-icon></v-btn>
   </v-flex>
 </template>
 
@@ -79,7 +83,7 @@
         if (this.lastSleep.end) {
           return moment(this.lastSleep.end).format('HH:mm');
         }
-        return 'Now';
+        return '';
       },
       lastSection() {
         if (!this.lastSleep) {
