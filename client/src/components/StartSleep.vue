@@ -1,7 +1,8 @@
 <template>
   <v-flex>
-    <v-btn @click="start(false)" color="primary" large>Start a Sleep</v-btn>
-    <v-btn @click="start(true)" color="secondary" large>Start a Sleep (Asleep)</v-btn>
+    <div class="display-1">Start a Sleep</div>
+    <v-btn large fab color="primary" @click="start(false)"><v-icon>play_arrow</v-icon></v-btn>
+    <v-btn large fab color="primary" @click="start(true)"><v-icon>brightness_3</v-icon></v-btn>
   </v-flex>
 </template>
 
@@ -21,5 +22,14 @@
 </script>
 
 <style scoped>
+  .v-btn--floating.v-btn--large {
+    height: 100px;
+    width: 100px;
+    font-size: xx-large;
+    margin: 30px;
+  }
 
+  .v-btn--floating.v-btn--large .v-icon {
+    font-size: 60px;
+  }
 </style>
