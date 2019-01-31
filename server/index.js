@@ -65,7 +65,7 @@ function updateFrom(a, b, msg) {
 
   let message = `${msg} id: ${a.id} updated`;
 
-  Object.keys(this)
+  Object.keys(a)
       .forEach(key => {
         if (key === 'id') {
           return;
@@ -135,7 +135,7 @@ io.on('connection', socket => {
       updateFrom(localSection, section, `(sleep id = ${sleepId}) section`);
     }
 
-    socket.broadcast.emit('update-sleep-section', sleepId, section);
+    socket.broadcast.emit('update-sleep-section', {sleepId, section});
     save();
   }
 
@@ -153,7 +153,7 @@ io.on('connection', socket => {
       sleep.sections.splice(index, 1);
     }
 
-    socket.broadcast.emit('delete-sleep-section', sleepId, sectionId);
+    socket.broadcast.emit('delete-sleep-section', {sleepId, sectionId});
     save();
   }
 
