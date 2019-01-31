@@ -40,8 +40,12 @@ function formatSection(section, start) {
   };
 }
 
+function from(date, f) {
+  return moment.duration(date.diff(f));
+}
+
 function fromNow(date) {
-  return moment.duration(date.diff(moment()));
+  return from(date, moment());
 }
 
 function hoursMinutes(duration) {
@@ -76,8 +80,8 @@ function hoursMinutes(duration) {
   return s;
 }
 
-function dateToHoursMinutes(date) {
-  return hoursMinutes(fromNow(date));
+function dateToHoursMinutes(date, f) {
+  return hoursMinutes(from(date, f));
 }
 
 export {

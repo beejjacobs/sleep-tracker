@@ -6,9 +6,9 @@
         <td>Started</td>
         <td>{{start.format('HH:mm')}}<span v-if="!startedToday"> ({{startDay}})</span></td>
       </tr>
-      <tr v-if="lastSleep.end">
+      <tr>
         <td>Ended</td>
-        <td>{{lastSleep.end | moment('HH:mm')}}</td>
+        <td>{{endText}}</td>
       </tr>
     </table>
     <template v-if="lastSection">
@@ -42,17 +42,20 @@
       ...mapGetters('sleep', [
         'lastSleep'
       ]),
+      ...mapGetters('time', [
+        'now'
+      ]),
       asleepHm() {
         if (!this.lastSection || !this.lastSection.asleep) {
           return '';
         }
-        return dateToHoursMinutes(moment(this.lastSection.asleep));
+        return dateToHoursMinutes(moment(this.lastSection.asleep), this.now);
       },
       awakeHm() {
         if (!this.lastSection || !this.lastSection.awake) {
           return '';
         }
-        return dateToHoursMinutes(moment(this.lastSection.awake));
+        return dateToHoursMinutes(moment(this.lastSection.awake), this.now);
       },
       awake() {
         if (!this.lastSection) {
@@ -68,6 +71,15 @@
           return false;
         }
         return !!this.lastSleep.end;
+      },
+      endText() {
+        if (!this.lastSleep) {
+          return '';
+        }
+        if (this.lastSleep.end) {
+          return moment(this.lastSleep.end).format('HH:mm');
+        }
+        return 'Now';
       },
       lastSection() {
         if (!this.lastSleep) {
@@ -92,7 +104,7 @@
         });
       },
       startedToday() {
-        return moment().isSame(this.start, 'day');
+        return moment(this.now).isSame(this.start, 'day');
       }
     }
   }
