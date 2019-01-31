@@ -8,7 +8,7 @@
 
       <date-editor class="date" v-model="sleep.start.date" label="Start Date"/>
       <time-editor v-model="sleep.start.time" label="Start Time"/>
-      <time-editor v-model="sleep.end" label="End Time"/>
+      <time-editor v-model="sleep.end" nullable label="End Time"/>
 
       <div class="title">Sections</div>
       <table class="add-sleep">
@@ -37,7 +37,7 @@
               <v-btn fab small color="red darken-2" @click="cancel"><v-icon>close</v-icon></v-btn>
             </td>
             <td><time-editor v-model="sleep.section.asleep" label="Asleep"/></td>
-            <td><time-editor v-model="sleep.section.awake" label="Awake"/></td>
+            <td><time-editor v-model="sleep.section.awake" nullable label="Awake"/></td>
           </template>
         </tr>
         </tbody>
@@ -132,15 +132,20 @@
       done() {
         let s = this.sleep;
         let start = momentFromDateTime(s.start);
-        let end = momentFromDateTime({date: s.start.date, time: s.end});
-        if (end.isBefore(start)) {
-          end.add(1, 'day');
+        
+        let end = null;
+        if (s.end !== null) {
+          end = momentFromDateTime({date: s.start.date, time: s.end});
+          if (end.isBefore(start)) {
+            end.add(1, 'day');
+          }
+          end = end.format();
         }
 
         let sleep = {
           id: this.maxSleepId + 1,
           start: start.format(),
-          end: end.format(),
+          end,
           sections: s.sections.map(section => formatSection(section, start))
         };
 

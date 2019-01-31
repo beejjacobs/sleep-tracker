@@ -18,6 +18,7 @@
     ></v-text-field>
     <v-time-picker v-if="dialog" v-model="time" color="blue" format="24hr">
       <v-spacer></v-spacer>
+      <v-btn v-if="nullable" flat color="red darken-2" @click="time = null">Clear</v-btn>
       <v-btn flat color="blue" @click="dialog = false">Cancel</v-btn>
       <v-btn flat color="blue" @click="done">OK</v-btn>
     </v-time-picker>
@@ -31,6 +32,10 @@
       label: {
         type: String,
         default: 'Time'
+      },
+      nullable: {
+        type: Boolean,
+        default: false
       },
       value: {
         type: String

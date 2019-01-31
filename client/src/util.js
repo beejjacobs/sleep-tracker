@@ -28,15 +28,20 @@ function formatSection(section, start) {
   if (asleep.isBefore(start)) {
     asleep.add(1, 'day');
   }
-  let awake = moment(start.format('YYYY-MM-DD') + 'T' + section.awake);
-  if (awake.isBefore(start)) {
-    awake.add(1, 'day');
+
+  let awake = null;
+  if (section.awake !== null) {
+    awake = moment(start.format('YYYY-MM-DD') + 'T' + section.awake);
+    if (awake.isBefore(start)) {
+      awake.add(1, 'day');
+    }
+    awake = awake.format();
   }
 
   return {
     id: section.id,
     asleep: asleep.format(),
-    awake: awake.format()
+    awake
   };
 }
 
