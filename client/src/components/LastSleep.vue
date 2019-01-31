@@ -53,7 +53,11 @@
         if (!this.lastSection || !this.lastSection.asleep) {
           return '';
         }
-        return dateToHoursMinutes(moment(this.lastSection.asleep), this.now);
+        let from = this.now;
+        if(this.lastSection.awake) {
+          from = this.lastSection.awake;
+        }
+        return dateToHoursMinutes(moment(this.lastSection.asleep), from);
       },
       awakeHm() {
         if (!this.lastSection || !this.lastSection.awake) {

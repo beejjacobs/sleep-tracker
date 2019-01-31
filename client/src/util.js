@@ -49,7 +49,6 @@ function fromNow(date) {
 }
 
 function hoursMinutes(duration) {
-  let past = duration < 0;
   let secs = Math.abs(duration.seconds());
   let mins = Math.abs(duration.minutes()) + (secs > 30 ? 1 : 0);
   let hours = Math.abs(duration.hours());
@@ -61,7 +60,7 @@ function hoursMinutes(duration) {
     mins = 0;
     hours++;
   }
-  let s = past ? '' : 'in ';
+  let s = '';
   if (hours !== 0) {
     s += `${hours} hour`;
     if (hours > 1) {
@@ -75,7 +74,6 @@ function hoursMinutes(duration) {
       s += 's';
     }
   }
-  s += past ? ' ago' : '';
 
   return s;
 }
