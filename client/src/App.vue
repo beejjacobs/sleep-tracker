@@ -37,11 +37,12 @@
   }
 
   .section {
-    height: 70vh;
+    height: 60vh;
     justify-items: center;
     text-align: center;
   }
   .section.small {
-    height: 30vh;
+    height: 40vh;
+    margin-top: 30px;
   }
 </style>
