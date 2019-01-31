@@ -81,8 +81,8 @@
       this.sleep.start.time = oneHrAgo.format('HH:mm');
       this.sleep.end = now.format('HH:mm');
 
-      this.sleep.section.asleep = oneHrAgo.format('HH:mm');
-      this.sleep.section.awake = now.format('HH:mm');
+      this.sleep.section.asleep = this.sleep.start.time;
+      this.sleep.section.awake = this.sleep.end;
     },
     computed: {
       ...mapGetters('sleep', [
@@ -94,6 +94,14 @@
           return max;
         }
         return 0;
+      }
+    },
+    watch: {
+      'sleep.start.time'() {
+        this.updateNewSectionTimes();
+      },
+      'sleep.end'() {
+        this.updateNewSectionTimes();
       }
     },
     methods: {
@@ -139,6 +147,10 @@
         this.updateSleep(sleep);
         this.sleep.sections = [];
         this.show = false;
+      },
+      updateNewSectionTimes() {
+        this.sleep.section.asleep = this.sleep.start.time;
+        this.sleep.section.awake = this.sleep.end;
       }
     }
   }
