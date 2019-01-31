@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <v-content>
-      <v-layout align-center class="section">
+      <v-layout class="section">
         <last-sleep/>
       </v-layout>
       <v-layout class="section small">
@@ -43,6 +43,6 @@
   }
   .section.small {
     height: 40vh;
-    margin-top: 30px;
+    margin-top: 15px;
   }
 </style>
