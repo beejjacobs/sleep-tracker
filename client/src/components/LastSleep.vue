@@ -14,9 +14,27 @@
 
     <div class="spacer"></div>
 
-    <v-btn :disabled="awake" large fab color="yellow darken-2"><v-icon>wb_sunny</v-icon></v-btn>
-    <v-btn :disabled="!awake || ended" large fab color="grey"><v-icon>brightness_3</v-icon></v-btn>
-    <v-btn :disabled="ended" large fab color="red darken-2"><v-icon>stop</v-icon></v-btn>
+    <v-btn
+      @click="setAwake"
+      :disabled="awake"
+      large fab color="yellow darken-2"
+    >
+      <v-icon>wb_sunny</v-icon>
+    </v-btn>
+    <v-btn
+      @click="setAsleep"
+      :disabled="!awake || ended"
+      large fab color="grey"
+    >
+      <v-icon>brightness_3</v-icon>
+    </v-btn>
+    <v-btn
+      @click="stop"
+      :disabled="ended"
+      large fab color="red darken-2"
+    >
+      <v-icon>stop</v-icon>
+    </v-btn>
     
     <div class="spacer"></div>
 
@@ -36,7 +54,7 @@
 </template>
 
 <script>
-  import {mapGetters} from 'vuex';
+  import {mapActions, mapGetters} from 'vuex';
   import moment from 'moment';
   import {dateToHoursMinutes} from '../util';
 
@@ -98,6 +116,13 @@
         }
         return this.lastSleep.sections[this.lastSleep.sections.length - 1];
       },
+      maxSectionId() {
+        let max = Math.max(...this.lastSleep.sections.map(s => s.id));
+        if (max !== Number.NEGATIVE_INFINITY) {
+          return max;
+        }
+        return 0;
+      },
       start() {
         return moment(this.lastSleep.start);
       },
@@ -113,6 +138,34 @@
       },
       startedToday() {
         return moment(this.now).isSame(this.start, 'day');
+      }
+      
+    },
+    methods: {
+      ...mapActions('sleep', [
+        'updateSleep',
+        'updateSleepSection'
+      ]),
+      setAsleep() {
+        let section = {
+          id: this.maxSectionId + 1,
+          asleep: moment().format(),
+          awake: null
+        };
+        this.updateSleepSection({sleepId: this.lastSleep.id, section});
+      },
+      setAwake() {
+        let section = Object.assign({}, this.lastSection);
+        section.awake = moment().format();
+        this.updateSleepSection({sleepId: this.lastSleep.id, section});
+      },
+      stop() {
+        if (!this.awake) {
+          this.setAwake();
+        }
+        let s = Object.assign({}, this.lastSleep);
+        s.end = moment().format();
+        this.updateSleep(s);
       }
     }
   }
