@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import moment from 'moment';
+import createPersistedState from 'vuex-persistedstate';
 import {SocketStorePlugin} from '../socket';
 
 import schedule from './schedule';
@@ -43,6 +44,13 @@ export default new Vuex.Store({
     time
   },
   plugins: [
+    createPersistedState({
+      paths: [
+        'lastConnected',
+        'sleep',
+        'schedule'
+      ]
+    }),
     SocketStorePlugin,
     TimePlugin
   ]
