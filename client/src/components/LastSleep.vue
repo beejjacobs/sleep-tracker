@@ -26,7 +26,7 @@
       :disabled="!awake || ended"
       large fab color="grey"
     >
-      <v-icon>brightness_3</v-icon>
+      <v-icon class="moon">brightness_3</v-icon>
     </v-btn>
     <v-btn
       @click="stop"

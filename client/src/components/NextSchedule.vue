@@ -1,6 +1,6 @@
 <template>
   <div v-if="nextSchedule" class="banner">
-    Schedule: <v-btn fab small :color="color" outline><v-icon>{{icon}}</v-icon></v-btn> @ {{time}}
+    Schedule: <v-btn fab small :color="color" outline><v-icon :class="{moon}">{{icon}}</v-icon></v-btn> @ {{time}}
   </div>
 </template>
 
@@ -17,6 +17,9 @@
       },
       icon() {
         return this.nextSchedule.isStart ? 'brightness_3' : 'wb_sunny';
+      },
+      moon() {
+        return this.icon === 'brightness_3';
       },
       time() {
         return this.nextSchedule.time.format('HH:mm');

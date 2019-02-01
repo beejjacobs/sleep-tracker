@@ -2,7 +2,7 @@
   <v-flex>
     <div class="display-1">Start a Sleep</div>
     <v-btn large fab color="primary" @click="start(false)"><v-icon>play_arrow</v-icon></v-btn>
-    <v-btn large fab color="primary" @click="start(true)"><v-icon>brightness_3</v-icon></v-btn>
+    <v-btn large fab color="primary" @click="start(true)"><v-icon class="moon">brightness_3</v-icon></v-btn>
   </v-flex>
 </template>
 

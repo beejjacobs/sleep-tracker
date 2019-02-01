@@ -46,4 +46,8 @@
     height: 40vh;
     margin-top: 15px;
   }
+
+  .moon {
+    transform: translateX(4%);
+  }
 </style>
