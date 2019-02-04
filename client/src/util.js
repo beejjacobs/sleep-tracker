@@ -11,8 +11,8 @@ function momentSort(a, b) {
   return 0;
 }
 
-function afterNow(m) {
-  return moment().isBefore(m);
+function afterNow(m, now) {
+  return moment(now).isBefore(m);
 }
 
 function timeToday(time) {

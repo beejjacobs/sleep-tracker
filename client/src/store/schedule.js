@@ -34,19 +34,20 @@ export default {
     offlineScheduleChanged(state) {
       return state.offlineScheduleChanged;
     },
-    nextSchedule(state) {
+    nextSchedule(state, getters, rootState, rootGetters) {
       if (state.schedule.length === 0) {
         return null;
       }
       let isStart = true;
+      let now = rootGetters['time/now'];
       //check today's time
       let starts = state.schedule
           .map(sleep => timeToday(sleep.start))
-          .filter(afterNow)
+          .filter(m => afterNow(m, now))
           .sort(momentSort);
       let ends = state.schedule
           .map(sleep => timeToday(sleep.end))
-          .filter(afterNow)
+          .filter(m => afterNow(m, now))
           .sort(momentSort);
       starts = starts.length === 0 ? null : starts[0];
       ends = ends.length === 0 ? null : ends[0];
@@ -83,15 +84,6 @@ export default {
       }
 
       return {time: next, isStart};
-    },
-    nextScheduleText(state, getters, rootState, rootGetters) {
-      if (getters.nextSchedule === null) {
-        return 'UNKNOWN';
-      }
-      return getters.nextSchedule.isStart ? 'Sleep' : 'Wake Up'
-          + ' @ '
-          + getters.nextSchedule.time.format('HH:mm')
-          + ' (' + moment(rootGetters['time/now']).to(getters.nextSchedule.time) + ')';
     }
   },
   mutations: {
