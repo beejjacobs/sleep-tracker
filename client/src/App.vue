@@ -8,6 +8,7 @@
         <start-sleep/>
       </v-layout>
       <add-sleep/>
+      <history/>
       <next-schedule/>
       <schedule/>
       <status/>

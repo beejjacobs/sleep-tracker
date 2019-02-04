@@ -9,6 +9,7 @@ Vue.config.productionTip = false;
 
 import AddSleep from './components/AddSleep';
 import DateEditor from './components/DateEditor';
+import History from './components/History';
 import LastSleep from './components/LastSleep';
 import NextSchedule from './components/NextSchedule';
 import Schedule from './components/Schedule';
@@ -20,6 +21,7 @@ import TimeEditor from './components/TimeEditor';
 
 Vue.component('add-sleep', AddSleep);
 Vue.component('date-editor', DateEditor);
+Vue.component('history', History);
 Vue.component('last-sleep', LastSleep);
 Vue.component('next-schedule', NextSchedule);
 Vue.component('schedule', Schedule);
