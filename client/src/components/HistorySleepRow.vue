@@ -57,7 +57,7 @@ export default {
           }, moment.duration());
     },
     edit() {
-
+      this.$emit('edit', this.sleep);
     },
     remove() {
       this.deleteSleep(this.sleep.id);

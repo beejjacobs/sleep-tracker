@@ -15,10 +15,16 @@
         </tr>
         </thead>
         <tbody>
-        <history-sleep-row v-for="sleep in sleeps" :key="sleep.id" :sleep="sleep"/>
+        <history-sleep-row
+          v-for="sleep in sleeps"
+          :key="sleep.id"
+          :sleep="sleep"
+          @edit="edit"/>
         </tbody>
       </table>
     </v-card>
+
+    <edit-sleep :sleep="editing" @close="editing = false"/>
   </v-dialog>
 </template>
 
@@ -28,13 +34,19 @@ export default {
   name: 'History',
   data() {
     return {
-      show: false
+      show: false,
+      editing: false
     };
   },
   computed: {
     ...mapGetters('sleep', [
       'sleeps'
     ])
+  },
+  methods: {
+    edit(sleep) {
+      this.editing = sleep;
+    }
   }
 };
 </script>

@@ -11,6 +11,7 @@ import EditMenu from './components/core/EditMenu';
 import DateEditor from './components/input/DateEditor';
 import TimeEditor from './components/input/TimeEditor';
 import AddSleep from './components/AddSleep';
+import EditSleep from './components/EditSleep';
 import History from './components/History';
 import HistorySleepRow from './components/HistorySleepRow';
 import LastSleep from './components/LastSleep';
@@ -22,6 +23,7 @@ import StartSleep from './components/StartSleep';
 import Status from './components/Status';
 
 Vue.component('add-sleep', AddSleep);
+Vue.component('edit-sleep', EditSleep);
 Vue.component('date-editor', DateEditor);
 Vue.component('edit-menu', EditMenu);
 Vue.component('history', History);

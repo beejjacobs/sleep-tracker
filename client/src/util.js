@@ -23,6 +23,14 @@ function momentFromDateTime({date, time}) {
   return moment(date + 'T' + time);
 }
 
+function justTime(dateTime) {
+  return moment(dateTime).format('HH:mm');
+}
+
+function justDate(dateTime) {
+  return moment(dateTime).format('YYYY-MM-DD');
+}
+
 function formatSection(section, start) {
   let asleep = moment(start.format('YYYY-MM-DD') + 'T' + section.asleep);
   if (asleep.isBefore(start)) {
@@ -94,6 +102,8 @@ export {
   formatSection,
   momentFromDateTime,
   fromNow,
+  justDate,
+  justTime,
   hoursMinutes,
   dateToHoursMinutes
 };
