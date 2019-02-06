@@ -1,13 +1,7 @@
 <template>
   <tr>
     <template v-if="!editing">
-      <td>
-        <v-speed-dial direction="right" v-model="open">
-          <v-btn slot="activator" color="blue darken-2" v-model="open" dark fab small><v-icon>settings</v-icon><v-icon>close</v-icon></v-btn>
-          <v-btn fab dark small color="green" @click="edit"><v-icon>edit</v-icon></v-btn>
-          <v-btn fab dark small color="red darken-3" @click="remove"><v-icon>delete</v-icon></v-btn>
-        </v-speed-dial>
-      </td>
+      <td><edit-menu v-model="open" @edit="edit" @remove="remove"/></td>
       <td :class="{hide: open}">{{ value.asleep }}</td>
       <td>{{ value.awake }}</td>
     </template>

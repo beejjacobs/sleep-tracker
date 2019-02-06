@@ -7,6 +7,7 @@ import store from './store';
 
 Vue.config.productionTip = false;
 
+import EditMenu from './components/core/EditMenu';
 import DateEditor from './components/input/DateEditor';
 import TimeEditor from './components/input/TimeEditor';
 import AddSleep from './components/AddSleep';
@@ -21,6 +22,7 @@ import Status from './components/Status';
 
 Vue.component('add-sleep', AddSleep);
 Vue.component('date-editor', DateEditor);
+Vue.component('edit-menu', EditMenu);
 Vue.component('history', History);
 Vue.component('last-sleep', LastSleep);
 Vue.component('next-schedule', NextSchedule);
