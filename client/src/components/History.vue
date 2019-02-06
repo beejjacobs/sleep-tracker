@@ -15,12 +15,7 @@
         </tr>
         </thead>
         <tbody>
-          <tr v-for="sleep in sleeps">
-            <td></td>
-            <td>{{sleep.start | moment('HH:mm')}}</td>
-            <td>{{sleep.end | moment('HH:mm')}}</td>
-            <td>{{ calcSleep(sleep) | duration }}</td>
-          </tr>
+        <history-sleep-row v-for="sleep in sleeps" :key="sleep.id" :sleep="sleep"/>
         </tbody>
       </table>
     </v-card>
@@ -29,26 +24,8 @@
 
 <script>
 import {mapGetters} from 'vuex';
-import moment from 'moment';
-
-function pluralEnding(num) {
-  return num > 1 ? 's' : '';
-}
-
 export default {
   name: 'History',
-  filters: {
-    duration(dur) {
-      const asMins = dur.asMinutes();
-      if (asMins < 59) {
-        return asMins.toFixed() + ' min' + pluralEnding(asMins);
-      }
-      const hrs = dur.hours();
-      const mins = dur.minutes();
-      return hrs + ' hr' + pluralEnding(hrs) + ' ' +
-          mins + ' min' + pluralEnding(mins);
-    }
-  },
   data() {
     return {
       show: false
@@ -58,20 +35,6 @@ export default {
     ...mapGetters('sleep', [
       'sleeps'
     ])
-  },
-  methods: {
-    calcSleep(sleep) {
-      return sleep.sections
-          .map(section => {
-            if (section.asleep && section.awake) {
-              return moment.duration(moment(section.awake).diff(moment(section.asleep)));
-            }
-            return moment.duration();
-          })
-          .reduce((previousValue, currentValue) => {
-            return previousValue.add(currentValue);
-          }, moment.duration());
-    }
   }
 };
 </script>
