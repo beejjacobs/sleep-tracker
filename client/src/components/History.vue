@@ -11,7 +11,7 @@
           <th></th>
           <th>Start</th>
           <th>End</th>
-          <th>Time</th>
+          <th>Sleep Time</th>
         </tr>
         </thead>
         <tbody>
@@ -19,7 +19,7 @@
             <td></td>
             <td>{{sleep.start | moment('HH:mm')}}</td>
             <td>{{sleep.end | moment('HH:mm')}}</td>
-            <td>{{ calcSleep(sleep).humanize() }}</td>
+            <td>{{ calcSleep(sleep) | duration }}</td>
           </tr>
         </tbody>
       </table>
@@ -31,8 +31,24 @@
 import {mapGetters} from 'vuex';
 import moment from 'moment';
 
+function pluralEnding(num) {
+  return num > 1 ? 's' : '';
+}
+
 export default {
   name: 'History',
+  filters: {
+    duration(dur) {
+      const asMins = dur.asMinutes();
+      if (asMins < 59) {
+        return asMins.toFixed() + ' min' + pluralEnding(asMins);
+      }
+      const hrs = dur.hours();
+      const mins = dur.minutes();
+      return hrs + ' hr' + pluralEnding(hrs) + ' ' +
+          mins + ' min' + pluralEnding(mins);
+    }
+  },
   data() {
     return {
       show: false
@@ -48,7 +64,7 @@ export default {
       return sleep.sections
           .map(section => {
             if (section.asleep && section.awake) {
-              return moment.duration(moment(section.asleep).diff(moment(section.awake)));
+              return moment.duration(moment(section.awake).diff(moment(section.asleep)));
             }
             return moment.duration();
           })
@@ -66,6 +82,7 @@ export default {
   }
   .display-1 {
     padding-top: 25px;
+    padding-bottom: 25px;
   }
 
   table {
